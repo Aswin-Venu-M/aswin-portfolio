@@ -5,15 +5,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiMenu, FiDownload } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
+import { navLinks } from "@/data/navLinks";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const navLinks = [
-  { label: "Work", href: "#projects" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
-];
 
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
