@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import ThemeProvider from "@/components/ThemeProvider";
+import ClientLayout from "@/components/ClientLayout";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -52,10 +53,12 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <SmoothScroll>
-            <CustomCursor />
-            {children}
-          </SmoothScroll>
+          <ClientLayout>
+            <SmoothScroll>
+              <CustomCursor />
+              {children}
+            </SmoothScroll>
+          </ClientLayout>
         </ThemeProvider>
       </body>
     </html>
