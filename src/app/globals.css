@@ -206,4 +206,19 @@ input::placeholder, textarea::placeholder {
   .brutal-hover:hover {
     transform: none !important;
   }
+
+  #scroll-progress {
+    transition: none;
+  }
+}
+
+/* ─── Active nav link (filled pill) ─────────────── */
+.nav-link-active {
+  background-color: var(--accent) !important;
+  border: 3px solid var(--border) !important;
+  box-shadow: 2px 2px 0px var(--shadow) !important;
+  color: #0A0A0A !important;
+  /* #0A0A0A hardcoded: var(--black) flips to cream in dark → low contrast on yellow */
+  transform: none !important;
+  /* suppress brutal-hover translate on the active link */
 }

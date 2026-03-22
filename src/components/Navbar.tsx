@@ -19,6 +19,7 @@ export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -62,7 +63,71 @@ export default function Navbar() {
       });
     }, navRef);
 
-    return () => ctx.revert();
+    // ── Scroll progress bar ──────────────────────────
+    const progressBar = progressRef.current;
+
+    const onScroll = () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      if (max <= 0 || !progressBar) return;
+      progressBar.style.width = `${Math.min((window.scrollY / max) * 100, 100)}%`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // ── Active section nav highlight ─────────────────
+    const navSectionIds = ["projects", "about", "skills", "contact"];
+    let activeId: string | null = null;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the most-visible intersecting section from this batch
+        const intersecting = entries.filter((e) => e.isIntersecting);
+        if (intersecting.length > 0) {
+          const best = intersecting.reduce((a, b) =>
+            a.intersectionRatio >= b.intersectionRatio ? a : b
+          );
+          const id = best.target.getAttribute("id")!;
+          if (id !== activeId) {
+            // Deactivate previous
+            if (activeId) {
+              const prev = linksRef.current?.querySelector(
+                `a[href="#${activeId}"]`
+              ) as HTMLElement | null;
+              prev?.classList.remove("nav-link-active");
+            }
+            // Activate new
+            const link = linksRef.current?.querySelector(
+              `a[href="#${id}"]`
+            ) as HTMLElement | null;
+            link?.classList.add("nav-link-active");
+            activeId = id;
+          }
+        } else {
+          // All observed entries left the viewport — clear active state
+          entries.forEach((entry) => {
+            const id = entry.target.getAttribute("id")!;
+            if (activeId === id) {
+              const link = linksRef.current?.querySelector(
+                `a[href="#${id}"]`
+              ) as HTMLElement | null;
+              link?.classList.remove("nav-link-active");
+              activeId = null;
+            }
+          });
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    navSectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      ctx.revert();
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -104,6 +169,19 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      {/* Scroll progress bar */}
+      <div
+        id="scroll-progress"
+        ref={progressRef}
+        className="absolute bottom-0 left-0 h-3 brutal-border brutal-shadow-sm"
+        style={{
+          width: "0%",
+          backgroundColor: "var(--accent)",
+          willChange: "width",
+          transition: "width 0.1s linear",
+          boxSizing: "border-box",
+        }}
+      />
     </nav>
   );
 }
