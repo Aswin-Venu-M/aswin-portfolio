@@ -9,6 +9,8 @@ import {
   FiSend, FiCheckCircle,
   FiArrowUpRight,
 } from "react-icons/fi";
+import { contactInfo } from "@/data/contact";
+import { socialLinks } from "@/data/navLinks";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -107,38 +109,38 @@ export default function Contact() {
                 <FiMail size={11} /> EMAIL
               </span>
               <a
-                href="mailto:aswinvg001@gmail.com"
+                href={`mailto:${contactInfo.email}`}
                 className="section-heading text-2xl md:text-3xl text-black hover:text-accent2 transition-colors underline decoration-4 underline-offset-4 decoration-accent"
                 data-cursor-label="MAIL"
               >
-                aswinvg001@gmail.com
+                {contactInfo.email}
               </a>
             </div>
 
-            <div>
+            {/* <div>
               <span className="mono-tag text-black/40 flex items-center gap-1.5 mb-2">
                 <FiPhone size={11} /> PHONE
               </span>
               <a
-                href="tel:+919074941551"
+                href={contactInfo.phoneHref}
                 className="font-display text-xl text-black hover:text-accent transition-colors"
               >
-                +91 9074941551
+                {contactInfo.phone}
               </a>
-            </div>
+            </div> */}
 
             <div>
               <span className="mono-tag text-black/40 flex items-center gap-1.5 mb-2">
                 <FiMapPin size={11} /> LOCATION
               </span>
-              <p className="font-body text-lg text-black/70">Trivandrum, India</p>
+              <p className="font-body text-lg text-black/70">{contactInfo.location}</p>
             </div>
 
             <div>
               <span className="mono-tag text-black/40 block mb-3">SOCIALS</span>
               <div className="flex flex-wrap gap-3">
                 <a
-                  href="https://linkedin.com/in/aswin-venu-m"
+                  href={socialLinks.find((l) => l.label === "LinkedIn")!.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 px-5 py-3 bg-surface brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest"
@@ -149,7 +151,7 @@ export default function Contact() {
                   <FiArrowUpRight size={12} className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                 </a>
                 <a
-                  href="https://github.com/aswinvg001"
+                  href={socialLinks.find((l) => l.label === "GitHub")!.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 px-5 py-3 bg-surface brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest"

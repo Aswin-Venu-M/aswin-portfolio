@@ -1,13 +1,7 @@
 "use client";
 
 import { FiArrowUp, FiGithub, FiLinkedin, FiDownload } from "react-icons/fi";
-
-const navLinks = [
-  { label: "Work", href: "#projects" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
-];
+import { navLinks, socialLinks } from "@/data/navLinks";
 
 export default function Footer() {
   return (
@@ -33,7 +27,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 mt-2">
               <a
-                href="https://linkedin.com/in/aswin-venu-m"
+                href={socialLinks.find((l) => l.label === "LinkedIn")!.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -42,7 +36,7 @@ export default function Footer() {
                 <FiLinkedin size={16} aria-hidden="true" />
               </a>
               <a
-                href="https://github.com/aswinvg001"
+                href={socialLinks.find((l) => l.label === "GitHub")!.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
