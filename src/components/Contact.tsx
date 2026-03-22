@@ -18,6 +18,7 @@ export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -60,9 +61,17 @@ export default function Contact() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    const data = new FormData(e.currentTarget);
+    data.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_KEY!);
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: data,
+    });
+    if (res.ok) setSubmitted(true);
+    setLoading(false);
   };
 
   return (
@@ -160,6 +169,12 @@ export default function Contact() {
               <FiCheckCircle size={48} strokeWidth={1.5} />
               <h3 className="section-heading text-2xl">Message sent!</h3>
               <p className="font-body text-black/70">I&apos;ll get back to you as soon as possible.</p>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="brutal-border brutal-shadow brutal-hover bg-surface px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest mt-2"
+              >
+                Send Another
+              </button>
             </div>
           ) : (
             <form
@@ -171,6 +186,7 @@ export default function Contact() {
                 <label className="mono-tag text-black/50">NAME</label>
                 <input
                   type="text"
+                  name="name"
                   required
                   placeholder="Your name"
                   className="brutal-border bg-bg px-5 py-4 font-body text-base focus:outline-none focus:bg-accent/10 transition-colors"
@@ -181,6 +197,7 @@ export default function Contact() {
                 <label className="mono-tag text-black/50">EMAIL</label>
                 <input
                   type="email"
+                  name="email"
                   required
                   placeholder="your@email.com"
                   className="brutal-border bg-bg px-5 py-4 font-body text-base focus:outline-none focus:bg-accent/10 transition-colors"
@@ -190,6 +207,7 @@ export default function Contact() {
               <div className="flex flex-col gap-1.5">
                 <label className="mono-tag text-black/50">MESSAGE</label>
                 <textarea
+                  name="message"
                   required
                   rows={5}
                   placeholder="Tell me about your project..."
@@ -199,10 +217,11 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="brutal-border brutal-shadow brutal-hover bg-accent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest w-full text-[#0A0A0A]"
+                disabled={loading}
+                className="brutal-border brutal-shadow brutal-hover bg-accent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest w-full text-[#0A0A0A] disabled:opacity-60 disabled:cursor-not-allowed"
                 data-cursor-label="SEND"
               >
-                Send Message <FiSend size={14} className="inline ml-1" />
+                {loading ? "Sending..." : <>Send Message <FiSend size={14} className="inline ml-1" /></>}
               </button>
             </form>
           )}
