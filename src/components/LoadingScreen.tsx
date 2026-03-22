@@ -236,11 +236,11 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         }}
       >
         {/* Pills */}
-        <div ref={pillsRef} style={{ display: "flex", gap: 8 }}>
+        {/* <div ref={pillsRef} style={{ display: "flex", gap: 8 }}>
           <Pill>portfolio</Pill>
           <Pill accent>v1.0</Pill>
           <Pill>2026</Pill>
-        </div>
+        </div> */}
 
         {/* "Loading" + dots */}
         <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>

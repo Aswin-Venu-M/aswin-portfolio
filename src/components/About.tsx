@@ -129,13 +129,13 @@ export default function About() {
         </div>
 
         {/* Heading */}
-        <h2
+        {/* <h2
           ref={headingRef}
           className="section-heading text-5xl md:text-7xl mb-12 relative inline-block"
         >
-          A builder who ships.
+          Full-stack engineer. Clean code, fast systems.
           <span className="absolute bottom-1 left-0 w-full h-2 bg-accent -z-10" />
-        </h2>
+        </h2> */}
 
         {/* Two Column */}
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 mb-12">
@@ -155,7 +155,7 @@ export default function About() {
               />
               {/* ABOUT badge overlapping */}
               <div className="absolute -bottom-4 -right-4 bg-accent brutal-border brutal-shadow px-5 py-2">
-                <span className="mono-tag font-bold text-[#0A0A0A] text-sm">ABOUT</span>
+                <span className="mono-tag font-bold text-[#0A0A0A] text-sm">Aswin</span>
               </div>
             </div>
           </div>

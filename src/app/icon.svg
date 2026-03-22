@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Neobrutalist drop shadow -->
+  <rect x="7" y="7" width="88" height="88" fill="#0A0A0A"/>
+  <!-- Main card -->
+  <rect x="2" y="2" width="88" height="88" fill="#FFD93D" stroke="#0A0A0A" stroke-width="4"/>
+  <!-- AV monogram -->
+  <text
+    x="46"
+    y="67"
+    font-family="Arial Black, 'Helvetica Neue', sans-serif"
+    font-weight="900"
+    font-size="50"
+    fill="#0A0A0A"
+    text-anchor="middle"
+    letter-spacing="-2"
+  >AV</text>
+</svg>
