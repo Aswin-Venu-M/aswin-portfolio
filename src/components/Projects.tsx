@@ -165,30 +165,24 @@ export default function Projects() {
               const effectiveVariant =
                 i === activeIndex ? "active" : i === activeIndex + 1 ? "peek-1" : "peek-2";
 
-              const wrapperClasses = [
-                "shrink-0",
-                effectiveVariant === "peek-2"
-                  ? "hidden lg:block"
-                  : effectiveVariant === "peek-1"
-                  ? "hidden md:block"
-                  : "",
-              ]
-                .filter(Boolean)
-                .join(" ");
+              // All cards use the same fixed width so every card is the same size
+              const widthClass = "w-[90%] md:w-[70%] lg:w-[60%]";
 
-              // Width classes: lg shows all, md hides peek-2, sm shows active only
-              const widthClass =
-                effectiveVariant === "active"
-                  ? "w-full md:w-[60%] lg:w-[58%]"
-                  : effectiveVariant === "peek-1"
-                  ? "md:w-[35%] lg:w-[25%]"
-                  : "lg:w-[12%]";
+              // Keep all cards in the flex row so offsetLeft is correct for GSAP translation.
+              // Use visibility:hidden (not display:none) for cards outside the peek window
+              // so they still occupy space and their offsetLeft values remain accurate.
+              const wrapperVisible = i >= activeIndex && i <= activeIndex + 2;
+              const wrapperClasses = "flex-shrink-0";
+              const wrapperStyle: React.CSSProperties = wrapperVisible
+                ? {}
+                : { visibility: "hidden" as const };
 
               return (
                 <div
                   key={project.id}
                   ref={(el) => { cardWrapperRefs.current[i] = el; }}
-                  className={`${wrapperClasses} ${widthClass} shrink-0`}
+                  className={`${wrapperClasses} ${widthClass}`}
+                  style={wrapperStyle}
                 >
                   <ProjectCard
                     project={project}
