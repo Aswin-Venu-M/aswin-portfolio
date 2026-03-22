@@ -181,13 +181,13 @@ export default function Navbar() {
       <div
         id="scroll-progress"
         ref={progressRef}
-        className="fixed top-16 left-0 h-3 brutal-border brutal-shadow-sm"
+        className="fixed top-16 left-0 h-3"
         style={{
           width: "0%",
           backgroundColor: "var(--accent)",
           willChange: "width",
           transition: "width 0.1s linear",
-          boxSizing: "border-box",
+          borderBottom: "3px solid var(--border)",
           zIndex: 49,
         }}
       />

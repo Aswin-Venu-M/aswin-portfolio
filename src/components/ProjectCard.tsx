@@ -47,12 +47,12 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
     >
       {/* Top row */}
       <div className="flex items-start justify-between mb-4">
-        <span className="font-mono text-4xl font-bold text-black/15 leading-none select-none">
+        <span className="font-mono text-4xl font-bold text-black/15 dark:text-black/30 leading-none select-none">
           {project.number}
         </span>
         {project.tag && (
           <span
-            className="mono-tag px-3 py-1 brutal-border"
+            className="mono-tag px-3 py-1 brutal-border text-[#0A0A0A]"
             style={{ backgroundColor: project.accentColor ?? "#FFD93D" }}
           >
             {project.tag}
@@ -77,8 +77,8 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
         {project.stack.map((tech) => {
           const Icon = getSkillIcon(tech);
           return (
-            <span key={tech} className="mono-tag inline-flex items-center gap-1.5 px-2 py-1 border border-black bg-black/5">
-              {Icon && <Icon size={11} className="shrink-0 opacity-60" />}
+            <span key={tech} className="mono-tag inline-flex items-center gap-1.5 px-2 py-1 border border-black/25 dark:border-black/40 bg-black/5 dark:bg-black/20">
+              {Icon && <Icon size={11} className="shrink-0 opacity-60 dark:opacity-80" />}
               {tech}
             </span>
           );
