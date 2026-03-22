@@ -42,9 +42,9 @@ export default function Projects() {
       ).matches;
 
       if (prefersReducedMotion) {
+        gsap.set(trackRef.current, { x: targetX });
         activeIndexRef.current = targetIndex;
         setActiveIndex(targetIndex);
-        gsap.set(trackRef.current, { x: targetX });
         if (ariaLiveRef.current) {
           ariaLiveRef.current.textContent = `Project ${targetIndex + 1} of ${projects.length}: ${projects[targetIndex].title}`;
         }
@@ -229,8 +229,7 @@ export default function Projects() {
 
           {/* Counter */}
           <span className="font-mono text-sm font-bold opacity-50">
-            {String(activeIndex + 1).padStart(2, "0")} /{" "}
-            {String(projects.length).padStart(2, "0")}
+            {String(activeIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
           </span>
 
           {/* Dot indicators */}
