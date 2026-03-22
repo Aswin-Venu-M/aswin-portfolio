@@ -40,10 +40,10 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
   return (
     <div
       ref={ref}
-      className="brutal-border brutal-shadow bg-accent p-5 flex flex-col"
+      className="brutal-border brutal-shadow bg-accent p-3 sm:p-4 md:p-5 flex flex-col"
       data-cursor-card
     >
-      <span className="section-heading text-4xl md:text-5xl text-black dark:text-[#0A0A0A]">
+      <span className="section-heading text-3xl sm:text-4xl md:text-5xl text-black dark:text-[#0A0A0A]">
         {count}{suffix}
       </span>
       <span className="mono-tag text-black/60 dark:text-[#0A0A0A]/60 mt-1">{label}</span>
@@ -175,7 +175,7 @@ export default function About() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4">
               {stats.map((stat) => (
                 <StatCard key={stat.label} {...stat} />
               ))}

@@ -222,3 +222,13 @@ input::placeholder, textarea::placeholder {
   transform: none !important;
   /* suppress brutal-hover translate on the active link */
 }
+
+/* ─── Touch device fixes ────────────────────────── */
+/*  (hover: none) and (pointer: coarse) targets touch-primary devices.  */
+/*  Using both conditions avoids affecting hybrid devices (e.g. Surface  */
+/*  Pro with mouse) that also register pointer: coarse for their screen. */
+/*  Known limitation: not perfect for all hybrid scenarios.              */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  .brutal-hover:hover { transform: none; }
+}

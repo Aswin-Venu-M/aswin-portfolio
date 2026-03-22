@@ -70,7 +70,7 @@ export default function Projects() {
         {/* Section label */}
         <div className="mb-4">
           <span className="mono-tag px-3 py-1 section-label">
-            03 / WORK
+            03 / PROJECTS
           </span>
         </div>
 
@@ -79,7 +79,7 @@ export default function Projects() {
           ref={headingRef}
           className="section-heading text-5xl md:text-7xl mb-12 relative inline-block"
         >
-          SELECTED WORK
+          PROJECTS
           <span
             className="absolute -bottom-1 left-0 h-3 bg-accent -z-10"
             style={{ width: "100%" }}

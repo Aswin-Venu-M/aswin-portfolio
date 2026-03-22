@@ -127,7 +127,7 @@ export default function Contact() {
 
             <div>
               <span className="mono-tag text-black/40 block mb-3">SOCIALS</span>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-3">
                 <a
                   href="https://linkedin.com/in/aswin-venu-m"
                   target="_blank"

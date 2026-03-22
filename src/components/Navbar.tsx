@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiMenu, FiDownload } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
+import MobileNav from "./MobileNav";
 import { navLinks } from "@/data/navLinks";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,6 +15,8 @@ export default function Navbar() {
   const logoRef = useRef<HTMLAnchorElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -125,6 +128,7 @@ export default function Navbar() {
   }, []);
 
   return (
+    <>
     <nav
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 bg-bg border-black border-b-0"
@@ -166,7 +170,12 @@ export default function Navbar() {
             <FiDownload size={13} strokeWidth={2.5} aria-hidden="true" />
             Resume
           </a>
-          <button className="md:hidden cursor-pointer p-2" aria-label="Open menu">
+          <button
+            ref={hamburgerRef}
+            className="md:hidden cursor-pointer p-2"
+            aria-label="Open menu"
+            onClick={() => setMobileOpen(true)}
+          >
             <FiMenu size={22} strokeWidth={2.5} />
           </button>
         </div>
@@ -186,5 +195,11 @@ export default function Navbar() {
         }}
       />
     </nav>
+    <MobileNav
+      isOpen={mobileOpen}
+      onClose={() => setMobileOpen(false)}
+      triggerRef={hamburgerRef}
+    />
+    </>
   );
 }
