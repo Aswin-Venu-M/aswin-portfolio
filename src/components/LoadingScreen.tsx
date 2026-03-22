@@ -32,7 +32,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const shapesRef   = useRef<HTMLDivElement[]>([]);
 
   // ── Animation refs ──
-  const ctxRef        = useRef<gsap.Context | null>(null);
   const barTweenRef   = useRef<gsap.core.Tween | null>(null);
   const exitTweensRef = useRef<gsap.core.Tween[]>([]);
   const tickerCbRef   = useRef<(() => void) | null>(null);
@@ -89,8 +88,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       });
     });
 
-    ctxRef.current = ctx;
-
     // % counter ticker
     const updatePct = () => {
       if (barTweenRef.current && pctTagRef.current) {
@@ -103,6 +100,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
     return () => {
       ctx.revert();
+      barTweenRef.current = null;
       if (tickerCbRef.current) gsap.ticker.remove(tickerCbRef.current);
     };
   }, []);
@@ -161,9 +159,13 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     });
 
     return () => {
+      const wasResolved = resolved;
       resolved = true;
       document.body.style.overflow = "";
       exitTweensRef.current.forEach((t) => t.kill());
+      // If exit was in progress when unmounted, ensure onComplete still fires
+      // so ClientLayout's loadingDone state doesn't stay false on remount
+      if (wasResolved) onComplete();
     };
   }, [onComplete]);
 
