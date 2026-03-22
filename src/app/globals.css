@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens ─────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #F5F0E8;
+  --black: #0A0A0A;
+  --accent: #FFD93D;
+  --accent2: #FF6B6B;
+  --accent3: #6BCB77;
+  --border: #0A0A0A;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: #F5F0E8;
+  --color-black: #0A0A0A;
+  --color-accent: #FFD93D;
+  --color-accent2: #FF6B6B;
+  --color-accent3: #6BCB77;
+
+  --font-display: var(--font-bricolage);
+  --font-mono: var(--font-jetbrains);
+  --font-body: var(--font-dm-sans);
+
+  --shadow-brutal: 4px 4px 0px #0A0A0A;
+  --shadow-brutal-sm: 2px 2px 0px #0A0A0A;
+  --shadow-brutal-lg: 6px 6px 0px #0A0A0A;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ──────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles this */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--black);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── Dot Grid Background ───────────────────────── */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(10,10,10,0.18) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+
+/* ─── Neobrutalism Utilities ────────────────────── */
+.brutal-border {
+  border: 3px solid #0A0A0A;
+}
+
+.brutal-border-4 {
+  border: 4px solid #0A0A0A;
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0px #0A0A0A;
+}
+
+.brutal-shadow-sm {
+  box-shadow: 2px 2px 0px #0A0A0A;
+}
+
+.brutal-shadow-lg {
+  box-shadow: 6px 6px 0px #0A0A0A;
+}
+
+.brutal-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brutal-hover:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #0A0A0A;
+}
+
+/* ─── Marquee ───────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Float Shapes ──────────────────────────────── */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-18px) rotate(5deg); }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(-7deg); }
+}
+
+.float-slow { animation: float-slow 6s ease-in-out infinite; }
+.float-fast { animation: float-fast 4s ease-in-out infinite; }
+
+/* ─── Section headings ──────────────────────────── */
+.section-heading {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* ─── Mono tag label ────────────────────────────── */
+.mono-tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ─── Custom Scrollbar ──────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--black);
+  border: 2px solid var(--bg);
+}
+
+/* ─── Selection ─────────────────────────────────── */
+::selection {
+  background: var(--accent);
+  color: var(--black);
+}
+
+/* ─── Timeline dashed border ────────────────────── */
+.timeline-line {
+  border-left: 3px dashed #0A0A0A;
+}
+
+/* ─── Reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .float-slow,
+  .float-fast {
+    animation: none !important;
+  }
+
+  .brutal-hover:hover {
+    transform: none !important;
+  }
 }
