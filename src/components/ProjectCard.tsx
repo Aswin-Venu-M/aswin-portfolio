@@ -14,11 +14,14 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, featured = false }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
+  const getShadowColor = () =>
+    getComputedStyle(document.documentElement).getPropertyValue("--shadow").trim() || "#0A0A0A";
+
   const handleEnter = () => {
     gsap.to(cardRef.current, {
       y: -3,
       x: 3,
-      boxShadow: "2px 2px 0px #0A0A0A",
+      boxShadow: `2px 2px 0px ${getShadowColor()}`,
       duration: 0.2,
       ease: "power2.out",
     });
@@ -28,7 +31,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
     gsap.to(cardRef.current, {
       y: 0,
       x: 0,
-      boxShadow: "4px 4px 0px #0A0A0A",
+      boxShadow: `4px 4px 0px ${getShadowColor()}`,
       duration: 0.2,
       ease: "power2.out",
     });
@@ -37,7 +40,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
   return (
     <div
       ref={cardRef}
-      className="brutal-border brutal-shadow bg-bg p-6 md:p-8 flex flex-col h-full cursor-pointer"
+      className="brutal-border brutal-shadow bg-surface p-6 md:p-8 flex flex-col h-full cursor-pointer"
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       data-cursor-card
@@ -87,7 +90,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
         {project.points.map((point, i) => (
           <li key={i} className="flex items-start gap-2 text-sm font-body text-black/70 leading-relaxed">
             <span
-              className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
+              className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
               style={{ backgroundColor: project.accentColor ?? "#FFD93D" }}
             />
             {point}

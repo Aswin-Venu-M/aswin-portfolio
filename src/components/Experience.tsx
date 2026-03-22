@@ -54,7 +54,7 @@ export default function Experience() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section label */}
         <div className="mb-4">
-          <span className="mono-tag px-3 py-1 bg-black text-accent">
+          <span className="mono-tag px-3 py-1 section-label">
             04 / EXPERIENCE
           </span>
         </div>
@@ -85,7 +85,7 @@ export default function Experience() {
 
                 {/* Card */}
                 <div
-                  className="brutal-border brutal-shadow bg-bg p-6 md:p-8"
+                  className="brutal-border brutal-shadow bg-surface p-6 md:p-8"
                   data-cursor-card
                 >
                   {/* Header */}
@@ -94,7 +94,7 @@ export default function Experience() {
                       <h3 className="section-heading text-2xl md:text-3xl mb-1">
                         {exp.company}
                       </h3>
-                      <span className="mono-tag px-3 py-1 bg-accent brutal-border text-sm inline-flex items-center gap-1.5">
+                      <span className="mono-tag px-3 py-1 bg-accent brutal-border text-sm inline-flex items-center gap-1.5 text-[#0A0A0A]">
                         <FiBriefcase size={11} />{exp.role}
                       </span>
                     </div>

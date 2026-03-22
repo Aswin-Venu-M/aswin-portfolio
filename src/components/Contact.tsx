@@ -74,7 +74,7 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Label */}
         <div className="mb-4">
-          <span className="mono-tag px-3 py-1 bg-black text-accent">
+          <span className="mono-tag px-3 py-1 section-label">
             07 / CONTACT
           </span>
         </div>
@@ -132,7 +132,7 @@ export default function Contact() {
                   href="https://linkedin.com/in/aswin-venu-m"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-5 py-3 bg-bg brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest"
+                  className="group inline-flex items-center gap-2 px-5 py-3 bg-surface brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest"
                   data-cursor-label="LI"
                 >
                   <FiLinkedin size={14} />
@@ -143,7 +143,7 @@ export default function Contact() {
                   href="https://github.com/aswinvg001"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 px-5 py-3 bg-bg brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest"
+                  className="group inline-flex items-center gap-2 px-5 py-3 bg-surface brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest"
                   data-cursor-label="GH"
                 >
                   <FiGithub size={14} />
@@ -199,7 +199,7 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="brutal-border brutal-shadow brutal-hover bg-accent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest w-full"
+                className="brutal-border brutal-shadow brutal-hover bg-accent px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest w-full text-[#0A0A0A]"
                 data-cursor-label="SEND"
               >
                 Send Message <FiSend size={14} className="inline ml-1" />

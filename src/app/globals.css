@@ -3,28 +3,50 @@
 /* ─── Design Tokens ─────────────────────────────── */
 :root {
   --bg: #F5F0E8;
+  --surface: #F5F0E8;   /* card/panel background — same as page in light */
   --black: #0A0A0A;
   --accent: #FFD93D;
   --accent2: #FF6B6B;
   --accent3: #6BCB77;
   --border: #0A0A0A;
+  --shadow: #0A0A0A;
+  --dot-color: rgba(10, 10, 10, 0.18);
+  --timeline-color: #0A0A0A;
+  --scrollbar-track: #F5F0E8;
 }
 
-@theme inline {
-  --color-bg: #F5F0E8;
-  --color-black: #0A0A0A;
-  --color-accent: #FFD93D;
-  --color-accent2: #FF6B6B;
-  --color-accent3: #6BCB77;
+/* ─── Dark Mode Overrides ────────────────────────── */
+.dark {
+  --bg: #111111;
+  --surface: #1D1D1D;   /* elevated surface — visibly lighter than page */
+  --black: #F0EBE0;
+  --border: #F0EBE0;
+  --shadow: #F0EBE0;
+  --dot-color: rgba(240, 235, 224, 0.1);
+  --timeline-color: rgba(240, 235, 224, 0.5);
+  --scrollbar-track: #111111;
+}
+
+/* ─── Tailwind Theme (non-inline so color utilities use CSS vars) ── */
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-black: var(--black);
+  --color-accent: var(--accent);
+  --color-accent2: var(--accent2);
+  --color-accent3: var(--accent3);
 
   --font-display: var(--font-bricolage);
   --font-mono: var(--font-jetbrains);
   --font-body: var(--font-dm-sans);
 
-  --shadow-brutal: 4px 4px 0px #0A0A0A;
-  --shadow-brutal-sm: 2px 2px 0px #0A0A0A;
-  --shadow-brutal-lg: 6px 6px 0px #0A0A0A;
+  --shadow-brutal: 4px 4px 0px var(--shadow);
+  --shadow-brutal-sm: 2px 2px 0px var(--shadow);
+  --shadow-brutal-lg: 6px 6px 0px var(--shadow);
 }
+
+/* ─── Dark variant (class-based, for dark: utilities) ────────────── */
+@variant dark (&:where(.dark, .dark *));
 
 /* ─── Base ──────────────────────────────────────── */
 *, *::before, *::after {
@@ -41,33 +63,34 @@ body {
   font-family: var(--font-body), sans-serif;
   overflow-x: hidden;
   cursor: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ─── Dot Grid Background ───────────────────────── */
 .dot-grid {
-  background-image: radial-gradient(circle, rgba(10,10,10,0.18) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(circle, var(--dot-color) 1.5px, transparent 1.5px);
   background-size: 26px 26px;
 }
 
 /* ─── Neobrutalism Utilities ────────────────────── */
 .brutal-border {
-  border: 3px solid #0A0A0A;
+  border: 3px solid var(--border);
 }
 
 .brutal-border-4 {
-  border: 4px solid #0A0A0A;
+  border: 4px solid var(--border);
 }
 
 .brutal-shadow {
-  box-shadow: 4px 4px 0px #0A0A0A;
+  box-shadow: 4px 4px 0px var(--shadow);
 }
 
 .brutal-shadow-sm {
-  box-shadow: 2px 2px 0px #0A0A0A;
+  box-shadow: 2px 2px 0px var(--shadow);
 }
 
 .brutal-shadow-lg {
-  box-shadow: 6px 6px 0px #0A0A0A;
+  box-shadow: 6px 6px 0px var(--shadow);
 }
 
 .brutal-hover {
@@ -76,7 +99,7 @@ body {
 
 .brutal-hover:hover {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px #0A0A0A;
+  box-shadow: 2px 2px 0px var(--shadow);
 }
 
 /* ─── Marquee ───────────────────────────────────── */
@@ -126,7 +149,7 @@ body {
 
 /* ─── Custom Scrollbar ──────────────────────────── */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
 ::-webkit-scrollbar-thumb {
   background: var(--black);
   border: 2px solid var(--bg);
@@ -140,7 +163,36 @@ body {
 
 /* ─── Timeline dashed border ────────────────────── */
 .timeline-line {
-  border-left: 3px dashed #0A0A0A;
+  border-left: 3px dashed var(--timeline-color);
+}
+
+/* ─── Section label badge ───────────────────────── */
+/*  Light: dark bg + yellow text                      */
+/*  Dark:  cream bg (--black flips) + dark text        */
+.section-label {
+  background-color: var(--black);
+  color: var(--accent);
+}
+.dark .section-label {
+  color: #0A0A0A;
+}
+
+/* ─── Accent-bg surfaces: always dark text ──────── */
+/*  bg-accent is yellow (#FFD93D) in both modes;      */
+/*  --color-black flips to cream in dark = bad.       */
+.dark .bg-accent {
+  color: #0A0A0A;
+}
+
+/* ─── Form inputs ───────────────────────────────── */
+input, textarea {
+  color: var(--black);
+  background-color: var(--bg);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--black);
+  opacity: 0.35;
 }
 
 /* ─── Reduced motion ────────────────────────────── */

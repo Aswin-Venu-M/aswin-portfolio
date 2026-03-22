@@ -69,7 +69,7 @@ export default function Projects() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section label */}
         <div className="mb-4">
-          <span className="mono-tag px-3 py-1 bg-black text-accent">
+          <span className="mono-tag px-3 py-1 section-label">
             03 / WORK
           </span>
         </div>

@@ -71,7 +71,7 @@ export default function Education() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Label */}
         <div className="mb-4">
-          <span className="mono-tag px-3 py-1 bg-black text-accent">
+          <span className="mono-tag px-3 py-1 section-label">
             06 / EDUCATION & CERTS
           </span>
         </div>
@@ -91,17 +91,17 @@ export default function Education() {
             data-cursor-card
           >
             <div>
-              <span className="mono-tag text-black/50 block mb-2">B.Tech</span>
-              <h3 className="section-heading text-2xl md:text-3xl mb-1">
+              <span className="mono-tag text-black/50 dark:text-[#0A0A0A]/50 block mb-2">B.Tech</span>
+              <h3 className="section-heading text-2xl md:text-3xl mb-1 dark:text-[#0A0A0A]">
                 APJ Abdul Kalam Technological University
               </h3>
-              <p className="font-body text-black/70 text-base">
+              <p className="font-body text-black/70 dark:text-[#0A0A0A]/70 text-base">
                 Electrical and Electronics Engineering
               </p>
             </div>
             <div className="flex flex-col items-start md:items-end gap-1">
-              <span className="mono-tag font-bold">2019 – 2023</span>
-              <span className="mono-tag text-black/50">Trivandrum, India</span>
+              <span className="mono-tag font-bold dark:text-[#0A0A0A]">2019 – 2023</span>
+              <span className="mono-tag text-black/50 dark:text-[#0A0A0A]/50">Trivandrum, India</span>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function Education() {
           {certifications.map((cert, i) => (
             <div
               key={i}
-              className="cert-card brutal-border brutal-shadow brutal-hover bg-bg p-5 flex flex-col gap-2"
+              className="cert-card brutal-border brutal-shadow brutal-hover bg-surface p-5 flex flex-col gap-2"
               data-cursor-card
             >
               <div

@@ -125,7 +125,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full py-12">
         {/* Badge */}
         <div ref={badgeRef} className="mb-6 inline-block">
-          <span className="mono-tag inline-block px-4 py-2 bg-accent brutal-border brutal-shadow font-bold">
+          <span className="mono-tag inline-block px-4 py-2 bg-accent brutal-border brutal-shadow font-bold text-[#0A0A0A]">
             [ JR. SOFTWARE ENGINEER ]
           </span>
         </div>
@@ -176,7 +176,7 @@ export default function Hero() {
           <a
             href="#projects"
             data-cursor-label="VIEW"
-            className="group inline-flex items-center gap-2 px-7 py-4 bg-accent brutal-border brutal-shadow brutal-hover font-mono text-sm font-bold uppercase tracking-wider"
+            className="group inline-flex items-center gap-2 px-7 py-4 bg-accent brutal-border brutal-shadow brutal-hover font-mono text-sm font-bold uppercase tracking-wider text-[#0A0A0A]"
           >
             View My Work
             <FiArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -198,10 +198,10 @@ export default function Hero() {
           {techStack.map((tech, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-6 px-6 font-mono text-sm font-bold tracking-widest text-accent uppercase"
+              className="inline-flex items-center gap-6 px-6 font-mono text-sm font-bold tracking-widest text-accent dark:text-[#0A0A0A] uppercase"
             >
               {tech}
-              <span className="text-accent2">✦</span>
+              <span className="text-accent2 dark:text-[#0A0A0A]/60">✦</span>
             </span>
           ))}
         </div>

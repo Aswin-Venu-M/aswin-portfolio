@@ -65,7 +65,7 @@ export default function Skills() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Label */}
         <div className="mb-4">
-          <span className="mono-tag px-3 py-1 bg-black text-accent">
+          <span className="mono-tag px-3 py-1 section-label">
             05 / SKILLS
           </span>
         </div>
@@ -86,7 +86,7 @@ export default function Skills() {
           {skillCategories.map((cat) => (
             <div
               key={cat.id}
-              className="bento-card brutal-border brutal-shadow bg-bg p-6 md:p-8"
+              className="bento-card brutal-border brutal-shadow bg-surface p-6 md:p-8"
               data-cursor-card
             >
               {/* Category header */}
@@ -94,7 +94,7 @@ export default function Skills() {
                 className="inline-block px-4 py-2 brutal-border mb-6"
                 style={{ backgroundColor: cat.accentColor }}
               >
-                <span className="mono-tag font-bold">{cat.label}</span>
+                <span className="mono-tag font-bold text-[#0A0A0A]">{cat.label}</span>
               </div>
 
               {/* Skills with icons */}
@@ -104,12 +104,12 @@ export default function Skills() {
                   return (
                     <div
                       key={skill.name}
-                      className="skill-pill group flex items-center gap-2 px-3 py-2 border border-black/20 bg-black/5 brutal-hover cursor-default"
+                      className="skill-pill group flex items-center gap-2 px-3 py-2 border border-black/25 dark:border-black/40 bg-black/5 dark:bg-black/20 brutal-hover cursor-default"
                     >
                       {Icon && (
                         <Icon
                           size={15}
-                          className="shrink-0 opacity-70 group-hover:opacity-100 transition-opacity"
+                          className="shrink-0 opacity-70 dark:opacity-90 group-hover:opacity-100 transition-opacity"
                         />
                       )}
                       <span className="mono-tag text-[0.65rem]">{skill.name}</span>

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiMenu } from "react-icons/fi";
+import ThemeToggle from "./ThemeToggle";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,7 +88,7 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="relative px-4 py-2 font-mono text-xs font-semibold tracking-widest uppercase text-black brutal-border brutal-shadow brutal-hover bg-bg hover:bg-accent transition-colors"
+              className="relative px-4 py-2 font-mono text-xs font-semibold tracking-widest uppercase text-black brutal-border brutal-shadow brutal-hover bg-surface hover:bg-accent hover:text-[#0A0A0A] transition-colors"
             >
               <span className="link-underline absolute bottom-0 left-0 h-0.5 w-full bg-black origin-left scale-x-0" />
               {link.label}
@@ -95,10 +96,13 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Mobile hamburger */}
-        <button className="md:hidden cursor-pointer p-2" aria-label="Open menu">
-          <FiMenu size={22} strokeWidth={2.5} />
-        </button>
+        {/* Theme toggle + Mobile hamburger */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button className="md:hidden cursor-pointer p-2" aria-label="Open menu">
+            <FiMenu size={22} strokeWidth={2.5} />
+          </button>
+        </div>
       </div>
     </nav>
   );

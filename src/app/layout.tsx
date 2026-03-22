@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, JetBrains_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -50,10 +51,12 @@ export default function RootLayout({
       className={`${bricolage.variable} ${jetbrains.variable} ${dmSans.variable}`}
     >
       <body>
-        <SmoothScroll>
-          <CustomCursor />
-          {children}
-        </SmoothScroll>
+        <ThemeProvider>
+          <SmoothScroll>
+            <CustomCursor />
+            {children}
+          </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -43,10 +43,10 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
       className="brutal-border brutal-shadow bg-accent p-5 flex flex-col"
       data-cursor-card
     >
-      <span className="section-heading text-4xl md:text-5xl text-black">
+      <span className="section-heading text-4xl md:text-5xl text-black dark:text-[#0A0A0A]">
         {count}{suffix}
       </span>
-      <span className="mono-tag text-black/60 mt-1">{label}</span>
+      <span className="mono-tag text-black/60 dark:text-[#0A0A0A]/60 mt-1">{label}</span>
     </div>
   );
 }
@@ -123,7 +123,7 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Label */}
         <div className="mb-4">
-          <span className="mono-tag px-3 py-1 bg-black text-accent">
+          <span className="mono-tag px-3 py-1 section-label">
             02 / ABOUT
           </span>
         </div>
@@ -155,7 +155,7 @@ export default function About() {
               />
               {/* ABOUT badge overlapping */}
               <div className="absolute -bottom-4 -right-4 bg-accent brutal-border brutal-shadow px-5 py-2">
-                <span className="mono-tag font-bold text-black text-sm">ABOUT</span>
+                <span className="mono-tag font-bold text-[#0A0A0A] text-sm">ABOUT</span>
               </div>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function About() {
           {skills.map((skill) => (
             <span
               key={skill}
-              className="skill-pill mono-tag px-4 py-2 bg-accent brutal-border brutal-shadow brutal-hover cursor-default"
+              className="skill-pill mono-tag px-4 py-2 bg-accent brutal-border brutal-shadow brutal-hover cursor-default text-[#0A0A0A]"
             >
               {skill}
             </span>
