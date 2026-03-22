@@ -199,7 +199,8 @@ input::placeholder, textarea::placeholder {
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .float-slow,
-  .float-fast {
+  .float-fast,
+  .loader-dot {
     animation: none !important;
   }
 
