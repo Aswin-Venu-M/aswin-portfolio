@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FiMenu } from "react-icons/fi";
+import { FiMenu, FiDownload } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -161,25 +161,34 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Theme toggle + Mobile hamburger */}
+        {/* Right-side controls: theme toggle, resume download, mobile menu */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <a
+            href="/resume.pdf"
+            download="Aswin_Venu_M_Resume.pdf"
+            className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 bg-accent brutal-border brutal-shadow brutal-hover font-mono text-xs font-bold uppercase tracking-widest text-[#0A0A0A]"
+          >
+            <FiDownload size={13} strokeWidth={2.5} aria-hidden="true" />
+            Resume
+          </a>
           <button className="md:hidden cursor-pointer p-2" aria-label="Open menu">
             <FiMenu size={22} strokeWidth={2.5} />
           </button>
         </div>
       </div>
-      {/* Scroll progress bar */}
+      {/* Scroll progress bar — fixed below the navbar */}
       <div
         id="scroll-progress"
         ref={progressRef}
-        className="absolute bottom-0 left-0 h-3 brutal-border brutal-shadow-sm"
+        className="fixed top-16 left-0 h-3 brutal-border brutal-shadow-sm"
         style={{
           width: "0%",
           backgroundColor: "var(--accent)",
           willChange: "width",
           transition: "width 0.1s linear",
           boxSizing: "border-box",
+          zIndex: 49,
         }}
       />
     </nav>
