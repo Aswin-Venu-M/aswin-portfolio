@@ -43,7 +43,10 @@ export class MenuScene extends Phaser.Scene {
       fontSize: "14px",
       color: "#888888",
     }).setOrigin(0.5).setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => { window.location.href = "/"; });
+      .on("pointerdown", (_pointer: Phaser.Input.Pointer, _lx: number, _ly: number, event: Phaser.Types.Input.EventData) => {
+        event.stopPropagation();
+        window.location.href = "/";
+      });
 
     this.input.keyboard!.once("keydown-SPACE", () => this.scene.start("GameScene"));
     this.input.once("pointerdown", () => this.scene.start("GameScene"));
