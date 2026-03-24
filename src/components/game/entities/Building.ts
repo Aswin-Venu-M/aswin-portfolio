@@ -18,7 +18,6 @@ export class Building {
     scene: Phaser.Scene,
     x: number,
     screenHeight: number,
-    ropeLength: number,
     playerSpawnY: number
   ) {
     const minHeight = playerSpawnY - 100;
