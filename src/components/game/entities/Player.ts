@@ -68,7 +68,7 @@ export class Player {
   update() {
     if (this.isSwinging) {
       this.sprite.setTexture("spidey-swing");
-    } else if ((this.sprite.body as Matter.Body).velocity.y > 0.5) {
+    } else if (((this.sprite.body as Matter.Body)?.velocity?.y ?? 0) > 0.5) {
       this.sprite.setTexture("spidey-fall");
     } else {
       this.sprite.setTexture("spidey-run");
