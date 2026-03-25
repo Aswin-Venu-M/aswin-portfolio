@@ -9,7 +9,7 @@ export function buildConfig(scenes: Phaser.Types.Scenes.SceneType[]): Phaser.Typ
       height: "100%",
       parent: "phaser-container",
     },
-    backgroundColor: "#87CEEB",
+    backgroundColor: "#1a2a4a",
     physics: {
       default: "matter",
       matter: {
