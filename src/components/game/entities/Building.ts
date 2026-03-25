@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-const COMIC_PALETTE = [0xf4d03f, 0x2e86c1, 0xe74c3c, 0x27ae60, 0x8e44ad, 0xe67e22];
+const PIXEL_PALETTE = [0x2d3a5e, 0x3d4f7a, 0x4a3728, 0x6b4c3b, 0x1e2d4a, 0x5c4033];
 
 export interface BuildingData {
   x: number;
@@ -24,7 +24,7 @@ export class Building {
     const maxHeight = screenHeight * 0.8;
     const height = Phaser.Math.Between(minHeight, maxHeight);
     const width = Phaser.Math.Between(80, 160);
-    const color = Phaser.Utils.Array.GetRandom(COMIC_PALETTE) as number;
+    const color = Phaser.Utils.Array.GetRandom(PIXEL_PALETTE) as number;
 
     this.data = {
       x,
@@ -50,7 +50,7 @@ export class Building {
 
     const cols = Math.floor(width / 20);
     const rows = Math.floor(height / 25);
-    this.graphics.fillStyle(0xffffcc);
+    this.graphics.fillStyle(0x8899bb);
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         this.graphics.fillRect(x + 6 + c * 20, top + 8 + r * 25, 10, 14);
