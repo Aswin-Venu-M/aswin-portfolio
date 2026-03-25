@@ -1,6 +1,7 @@
 "use client";
 
-import { FiArrowUp, FiGithub, FiLinkedin, FiDownload } from "react-icons/fi";
+import { FiArrowUp, FiGithub, FiLinkedin, FiDownload, FiPlayCircle } from "react-icons/fi";
+import Link from "next/link";
 import { navLinks, socialLinks } from "@/data/navLinks";
 
 export default function Footer() {
@@ -88,6 +89,13 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-[#F0EBE0]/15 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="mono-tag text-[#F0EBE0]/40">© {new Date().getFullYear()} Aswin Venu M</p>
+          <Link
+            href="/game"
+            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-[#F0EBE0]/30 mono-tag text-[#F0EBE0]/60 hover:border-accent hover:text-accent transition-colors brutal-hover"
+          >
+            <FiPlayCircle size={13} aria-hidden="true" />
+            Play a Game
+          </Link>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-[#F0EBE0]/30 mono-tag text-[#F0EBE0]/60 hover:border-[#F0EBE0] hover:text-[#F0EBE0] transition-colors brutal-hover"
