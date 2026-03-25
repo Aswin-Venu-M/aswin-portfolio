@@ -37,7 +37,7 @@ export class GameScene extends Phaser.Scene {
     this.score = 0;
     this.combo = 0;
     this.speed = INITIAL_SPEED;
-    this.lastSpeedIncrease = 0;
+    this.lastSpeedIncrease = this.time.now;
     this.isGameOver = false;
     this.buildings = [];
     this.skylineOffsetX = 0;
