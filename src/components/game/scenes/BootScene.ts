@@ -1,51 +1,167 @@
 import Phaser from "phaser";
 
+const COLOR_MAP: Record<string, number> = {
+  R: 0xcc1111, // red suit
+  r: 0x991100, // dark red (web detail)
+  B: 0x1144bb, // blue suit
+  b: 0x002299, // dark blue (shadows)
+  W: 0xffffff, // eye lenses
+  K: 0x000000, // outline
+};
+
+function drawPixelSprite(
+  scene: Phaser.Scene,
+  rows: string[],
+  key: string
+): void {
+  const w = rows[0].length;
+  const h = rows.length;
+  const rt = scene.add.renderTexture(0, 0, w, h);
+  const g = scene.add.graphics();
+  rows.forEach((row, y) => {
+    [...row].forEach((ch, x) => {
+      if (ch === "." || !(ch in COLOR_MAP)) return;
+      g.fillStyle(COLOR_MAP[ch]);
+      g.fillRect(x, y, 1, 1);
+    });
+  });
+  rt.draw(g, 0, 0);
+  g.destroy();
+  rt.saveTexture(key);
+  rt.destroy();
+}
+
+const RUN_ROWS: string[] = [
+  "........KKKKKK..........",
+  ".......KrRRRRrK.........",
+  "......KRRRRRRRrK........",
+  "......KrWWRRWWrK........",
+  "......KrWWRRWWrK........",
+  "......KRRRRRRRrK........",
+  ".......KKKKKKKK.........",
+  ".....KBKRRRRRRKBK.......",
+  "....KBBKrRRRRrKBBK......",
+  "...KBBbKRRRRRRKBBbK.....",
+  "...KBBbKRRRRRRKBBbK.....",
+  "....KBbKRRRrRRKBbK......",
+  ".....KBKRRRRRRKBK.......",
+  ".....KBKRRRRRRrKBK......",
+  "......KKRRRRRRrKK.......",
+  ".......KBBRRBBbK........",
+  "......KBBBKKBBBbK.......",
+  ".....KBBBb.KBBBbK.......",
+  "....KBBBb...KBBbK.......",
+  "...KBBBb.....KBbK.......",
+  "..KBBBb.......KBK.......",
+  ".KBBBb.........KK.......",
+  "KBBBb...........K.......",
+  "KBBb.............K......",
+  "KBBb..............KK....",
+  ".KBb...............KBK..",
+  "..KBb...............KBbK",
+  "...KBb..............KBbK",
+  "...KBb..............KBbK",
+  "....KBb.............KBbK",
+  "....KBb..............KKK",
+  ".....KKK................",
+  "........................",
+  "........................",
+  "........................",
+  "........................",
+];
+
+const SWING_ROWS: string[] = [
+  "....................KBbK",
+  "....................KBbK",
+  "....................KBbK",
+  ".......KKKKKK......KBbK.",
+  "......KrRRRRrK.....KBbK.",
+  ".....KRRRRRRRrK....KBbK.",
+  ".....KrWWRRWWrK....KBbK.",
+  ".....KrWWRRWWrK....KBbK.",
+  ".....KRRRRRRRrK...KBBbK.",
+  "......KKKKKKKK...KBBBbK.",
+  "....KBKrRRRRrKKKBBBBbK..",
+  "....KBBKRRRRRrKBBBBbK...",
+  "...KBBbKRRRRRrKBBBbK....",
+  "...KBBbKRRRRRrKBBbK.....",
+  "....KBbKRRRRrRKBbK......",
+  ".....KBKRRRRRRKBK.......",
+  "......KKRRRRRRrKK.......",
+  ".......KBBRRBBbK........",
+  ".......KBBBBBBbK........",
+  "......KBBBBBBbK.........",
+  ".....KBBBBBbbK..........",
+  "....KBBBBbbbK...........",
+  "...KBBBBbbbbK...........",
+  "..KBBBbbbbbK............",
+  "..KBBbbbb.KBbbK.........",
+  ".KBBbbb...KBBbbK........",
+  "KBBbbb.....KBBbbK.......",
+  "KBBbb.......KBBbK.......",
+  ".KBbb........KBbK.......",
+  "..KBb.........KBbK......",
+  "...KBb.........KBK......",
+  "....KBb.........KK......",
+  ".....KBb........KKK.....",
+  "......KKK.......KKK.....",
+  "........................",
+  "........................",
+];
+
+const FALL_ROWS: string[] = [
+  "........................",
+  "........................",
+  "........KKKKKK..........",
+  ".......KrRRRRrK.........",
+  "......KRRRRRRRrK........",
+  "......KrWWRRWWrK........",
+  "......KrWWRRWWrK........",
+  "......KRRRRRRRrK........",
+  ".......KKKKKKKK.........",
+  ".......KrRRRRrK.........",
+  "...KBBKRRRRRRKBBbK......",
+  "..KBBbKRRRRRRKBBbbK.....",
+  ".KBBbbKRRRRRRKBBbbbK....",
+  "KBBbbbKRRRRRRKBBbbbbK...",
+  "KBBbbbbKRRRRRrKBBbbbbbK.",
+  ".KBbbbKKrRRRRrKKBbbbbK..",
+  "..KBbbKRRRRRRKBbbbK.....",
+  "...KBbKRRRRRRKBbbK......",
+  "....KBKRRRRRRKBbK.......",
+  "........KBBbKKBBbK......",
+  ".......KBBBb..KBBBbK....",
+  "......KBBBb....KBBbK....",
+  ".....KBBBb......KBbK....",
+  "....KBBBb........KBK....",
+  "...KBBBb..........KbK...",
+  "..KBBBb............KKK..",
+  ".KBBb...............KBK.",
+  "KBBb.................KBK",
+  "KBb.................KBbK",
+  ".KBb...............KBbbK",
+  "..KBb..............KBbbK",
+  "...KBb..............KBbK",
+  "....KBb..............KKK",
+  ".....KKK................",
+  "........................",
+  "........................",
+];
+
 export class BootScene extends Phaser.Scene {
   constructor() {
     super({ key: "BootScene" });
   }
 
-  create() {
-    this.generateSpideyTextures();
-    this.scene.start("MenuScene");
+  preload() {
+    this.load.image("game-bg", "/game-bg.webp");
   }
 
-  private generateSpideyTextures() {
-    const size = 40;
-
-    // --- spidey-run: upright body ---
-    const rtRun = this.add.renderTexture(0, 0, size, size);
-    const gRun = this.add.graphics();
-    gRun.fillStyle(0x0000cc); gRun.fillRect(12, 14, 16, 18);
-    gRun.fillStyle(0xcc0000); gRun.fillCircle(20, 10, 10);
-    gRun.fillStyle(0x0000cc); gRun.fillRect(12, 30, 6, 10); gRun.fillRect(22, 30, 6, 10);
-    rtRun.draw(gRun, 0, 0);
-    gRun.destroy();
-    rtRun.saveTexture("spidey-run");
-    rtRun.destroy();
-
-    // --- spidey-swing: arm extended upward ---
-    const rtSwing = this.add.renderTexture(0, 0, size, size);
-    const gSwing = this.add.graphics();
-    gSwing.fillStyle(0x0000cc); gSwing.fillRect(12, 14, 16, 18);
-    gSwing.fillStyle(0xcc0000); gSwing.fillCircle(20, 10, 10);
-    gSwing.lineStyle(3, 0x0000cc); gSwing.lineBetween(20, 14, 32, 2);
-    gSwing.fillStyle(0x0000cc); gSwing.fillRect(12, 30, 6, 10); gSwing.fillRect(22, 30, 6, 10);
-    rtSwing.draw(gSwing, 0, 0);
-    gSwing.destroy();
-    rtSwing.saveTexture("spidey-swing");
-    rtSwing.destroy();
-
-    // --- spidey-fall: arms and legs spread ---
-    const rtFall = this.add.renderTexture(0, 0, size, size);
-    const gFall = this.add.graphics();
-    gFall.fillStyle(0x0000cc); gFall.fillRect(12, 16, 16, 16);
-    gFall.fillStyle(0xcc0000); gFall.fillCircle(20, 10, 10);
-    gFall.lineStyle(3, 0x0000cc); gFall.lineBetween(12, 20, 2, 14); gFall.lineBetween(28, 20, 38, 14);
-    gFall.fillStyle(0x0000cc); gFall.fillRect(10, 30, 6, 10); gFall.fillRect(24, 30, 6, 10);
-    rtFall.draw(gFall, 0, 0);
-    gFall.destroy();
-    rtFall.saveTexture("spidey-fall");
-    rtFall.destroy();
+  create() {
+    drawPixelSprite(this, RUN_ROWS, "spidey-run");
+    drawPixelSprite(this, SWING_ROWS, "spidey-swing");
+    drawPixelSprite(this, FALL_ROWS, "spidey-fall");
+    // scene.start must be last — textures must be registered before MenuScene uses them
+    this.scene.start("MenuScene");
   }
 }
