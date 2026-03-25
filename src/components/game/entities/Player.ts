@@ -2,7 +2,8 @@ import Phaser from "phaser";
 
 // Access MatterJS through Phaser's re-export — do NOT import "matter-js" directly.
 // matter-js is bundled inside Phaser and is not an installed standalone package.
-const Matter = Phaser.Physics.Matter.Matter;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Matter = (Phaser.Physics.Matter as any).Matter as typeof MatterJS;
 
 type MatterScene = Phaser.Scene & { matter: Phaser.Physics.Matter.MatterPhysics };
 
@@ -34,11 +35,11 @@ export class Player {
       200
     );
 
-    const matterWorld = (this.scene.matter.world as Phaser.Physics.Matter.World).localWorld;
+    const matterWorld = (this.scene.matter.world as Phaser.Physics.Matter.World).localWorld as unknown as MatterJS.CompositeType;
 
     this.constraint = Matter.Constraint.create({
       pointA: { x: anchorX, y: anchorY },
-      bodyB: this.sprite.body as Matter.Body,
+      bodyB: this.sprite.body as MatterJS.BodyType,
       length: ropeLen,
       stiffness: 0.02,
       damping: 0.01,
@@ -54,7 +55,7 @@ export class Player {
 
   releaseWeb() {
     if (this.constraint) {
-      const matterWorld = (this.scene.matter.world as Phaser.Physics.Matter.World).localWorld;
+      const matterWorld = (this.scene.matter.world as Phaser.Physics.Matter.World).localWorld as unknown as MatterJS.CompositeType;
       Matter.Composite.remove(matterWorld, this.constraint);
       this.constraint = null;
     }
@@ -68,7 +69,7 @@ export class Player {
   update() {
     if (this.isSwinging) {
       this.sprite.setTexture("spidey-swing");
-    } else if (((this.sprite.body as Matter.Body)?.velocity?.y ?? 0) > 0.5) {
+    } else if (((this.sprite.body as MatterJS.BodyType)?.velocity?.y ?? 0) > 0.5) {
       this.sprite.setTexture("spidey-fall");
     } else {
       this.sprite.setTexture("spidey-run");

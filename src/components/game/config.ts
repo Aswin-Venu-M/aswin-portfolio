@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export function buildConfig(scenes: Phaser.Types.Core.SceneType[]): Phaser.Types.Core.GameConfig {
+export function buildConfig(scenes: Phaser.Types.Scenes.SceneType[]): Phaser.Types.Core.GameConfig {
   return {
     type: Phaser.AUTO,
     scale: {
