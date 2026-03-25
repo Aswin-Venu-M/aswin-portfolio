@@ -24,6 +24,7 @@ export class Player {
       label: "player",
     });
     this.sprite.setFixedRotation();
+    this.sprite.setScale(2);
   }
 
   fireWeb(anchorX: number, anchorY: number) {
