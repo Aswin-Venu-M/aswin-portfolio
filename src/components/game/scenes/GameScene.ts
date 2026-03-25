@@ -14,8 +14,7 @@ export class GameScene extends Phaser.Scene {
   private player!: Player;
   private buildings: Building[] = [];
   private webLine!: WebLine;
-  private skyline!: Phaser.GameObjects.Graphics;
-  private skylineOffsetX = 0;
+  private bg!: Phaser.GameObjects.TileSprite;
 
   private score = 0;
   private combo = 0;
@@ -40,14 +39,13 @@ export class GameScene extends Phaser.Scene {
     this.lastSpeedIncrease = this.time.now;
     this.isGameOver = false;
     this.buildings = [];
-    this.skylineOffsetX = 0;
 
-    // Sky
-    this.add.rectangle(0, 0, width, height, 0x87ceeb).setOrigin(0);
-
-    // Parallax skyline (distant buildings)
-    this.skyline = this.add.graphics();
-    this.drawSkyline(width, height);
+    // Pixel art background
+    this.bg = this.add
+      .tileSprite(0, 0, width, height, "game-bg")
+      .setOrigin(0)
+      .setScrollFactor(0)
+      .setDepth(-1);
 
     // Static ground body
     this.matter.add.rectangle(width / 2, height + 10, width * 10, 20, {
@@ -105,14 +103,6 @@ export class GameScene extends Phaser.Scene {
         }
       }
     );
-  }
-
-  private drawSkyline(width: number, height: number) {
-    this.skyline.fillStyle(0x4a6fa5, 0.5);
-    for (let x = 0; x < width * 3; x += 60) {
-      const h = Phaser.Math.Between(60, 140);
-      this.skyline.fillRect(x, height - h - 60, 50, h);
-    }
   }
 
   private spawnInitialBuildings(width: number, height: number) {
@@ -216,9 +206,8 @@ export class GameScene extends Phaser.Scene {
     // Scroll buildings left
     this.buildings.forEach(b => { b.graphics.x -= this.speed; });
 
-    // Parallax skyline
-    this.skylineOffsetX -= this.speed * 0.3;
-    this.skyline.x = this.skylineOffsetX;
+    // Scroll background
+    this.bg.tilePositionX += this.speed * 0.6;
 
     // Remove off-screen buildings, score per building cleared
     while (
