@@ -15,6 +15,7 @@ export class GameScene extends Phaser.Scene {
   private buildings: Building[] = [];
   private webLine!: WebLine;
   private bg!: Phaser.GameObjects.TileSprite;
+  private bgTileScale = 1;
 
   private score = 0;
   private combo = 0;
@@ -40,12 +41,16 @@ export class GameScene extends Phaser.Scene {
     this.isGameOver = false;
     this.buildings = [];
 
-    // Pixel art background
+    // Pixel art background — scale tile to fill screen height so the seam
+    // appears at most once per ~screen-width of scroll instead of every 600 px.
+    const bgSrc = this.textures.get("game-bg").getSourceImage() as HTMLImageElement;
+    this.bgTileScale = height / bgSrc.height;
     this.bg = this.add
       .tileSprite(0, 0, width, height, "game-bg")
       .setOrigin(0)
       .setScrollFactor(0)
-      .setDepth(-1);
+      .setDepth(-1)
+      .setTileScale(this.bgTileScale, this.bgTileScale);
 
     // Static ground body
     this.matter.add.rectangle(width / 2, height + 10, width * 10, 20, {
@@ -206,8 +211,8 @@ export class GameScene extends Phaser.Scene {
     // Scroll buildings left
     this.buildings.forEach(b => { b.graphics.x -= this.speed; });
 
-    // Scroll background
-    this.bg.tilePositionX += this.speed * 0.6;
+    // Scroll background — divide by tileScale so speed is in screen pixels
+    this.bg.tilePositionX += (this.speed * 0.6) / this.bgTileScale;
 
     // Remove off-screen buildings, score per building cleared
     while (

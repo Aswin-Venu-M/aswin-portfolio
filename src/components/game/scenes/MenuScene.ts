@@ -26,7 +26,7 @@ export class MenuScene extends Phaser.Scene {
       strokeThickness: 4,
     }).setOrigin(0.5);
 
-    this.add.image(width / 2, height * 0.6, "spidey-swing").setScale(4);
+    this.add.image(width / 2, height * 0.6, "spidey-swing").setScale(5);
 
     const prompt = this.add.text(width / 2, height * 0.82, "PRESS SPACE OR TAP TO SWING", {
       fontFamily: "Impact, Arial Black, sans-serif",

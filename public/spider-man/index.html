@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Spider-Man Game</title>
+	<link rel="shortcut icon" href="/spider-man/images/spider-head.png" />
+	<style>
+		html, body {
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			font-size: 0;
+			background: #000;
+			overflow: hidden;
+		}
+		.canvas-wrapper {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform-origin: center center;
+		}
+
+		/* ── HUD ── */
+		.hud {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 6px 10px;
+			font-size: 13px;
+			font-family: Helvetica, Arial, sans-serif;
+			color: #ccc;
+			background: rgba(0,0,0,0.5);
+		}
+		.key {
+			height: 24px;
+			min-width: 18px;
+			line-height: 24px;
+			text-align: center;
+			border: 1px solid #ccc;
+			border-bottom: 3px solid #bbb;
+			background: white;
+			display: inline-block;
+			padding: 0 5px;
+			border-radius: 4px;
+			color: #333;
+			font-weight: bold;
+			font-size: 12px;
+		}
+		.key.spacebar { padding: 0 20px; }
+		.controls { display: flex; gap: 12px; align-items: center; }
+		.back-link {
+			font-size: 13px;
+			color: #aaa;
+			text-decoration: none;
+			border: 1px solid #444;
+			padding: 3px 10px;
+			border-radius: 4px;
+		}
+		.back-link:hover { color: #fff; border-color: #888; }
+
+		/* ── Device frame (tablet by default) ── */
+		.device-frame {
+			background: linear-gradient(145deg, #2dd4bf, #0d9488);
+			border-radius: 20px;
+			padding: 10px 12px 20px 12px;
+			gap: 8px;
+			box-shadow: 0 0 0 2px #0f766e, 0 20px 60px rgba(13,148,136,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.device-camera {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #0f766e;
+			box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+		}
+		.device-screen {
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: inset 0 2px 8px rgba(0,0,0,0.6), 0 0 0 1px #0f766e;
+			display: block;
+			font-size: 0;
+		}
+		.tablet-home {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background: linear-gradient(145deg, #0f766e, #134e4a);
+			box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+			border: 1.5px solid #0f766e;
+		}
+
+		/* Console section hidden on desktop */
+		.console-section { display: none; }
+
+		/* ── Console mode (mobile ≤ 640px) ── */
+		@media (max-width: 640px) {
+			.hud         { display: none; }
+			.tablet-home { display: none; }
+			.console-section {
+				display: block;
+				width: 100%;
+			}
+			.device-frame {
+				border-radius: 18px;
+				padding: 8px 8px 14px 8px;
+				gap: 6px;
+			}
+
+			/* Speaker dots */
+			.console-speakers {
+				display: flex;
+				gap: 5px;
+				align-self: flex-end;
+				margin-right: 4px;
+				margin-bottom: 2px;
+			}
+			.speaker-dot {
+				width: 5px;
+				height: 5px;
+				border-radius: 50%;
+				background: rgba(0,0,0,0.3);
+				box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+			}
+
+			/* Controls row */
+			.console-controls-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 100%;
+				padding: 4px 4px;
+			}
+
+			/* D-pad — disc platform */
+			.dpad {
+				width: 118px;
+				height: 118px;
+				background: rgba(0,0,0,0.28);
+				border-radius: 50%;
+				box-shadow: inset 0 3px 10px rgba(0,0,0,0.5), 0 2px 0 rgba(255,255,255,0.06);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 3px;
+			}
+			.dpad-row {
+				display: flex;
+				align-items: center;
+				gap: 3px;
+			}
+			.dpad-btn {
+				width: 32px;
+				height: 32px;
+				background: rgba(255,255,255,0.08);
+				border: 1.5px solid rgba(255,255,255,0.18);
+				border-radius: 8px;
+				color: rgba(255,255,255,0.9);
+				font-size: 11px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				touch-action: none;
+				user-select: none;
+				-webkit-tap-highlight-color: transparent;
+				box-shadow: 0 2px 6px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+				transition: all 0.08s ease;
+			}
+			.dpad-btn:active {
+				background: rgba(45,212,191,0.35);
+				border-color: rgba(45,212,191,0.65);
+				color: #fff;
+				transform: scale(0.88);
+				box-shadow: 0 0 12px rgba(45,212,191,0.45);
+			}
+			.dpad-center-dot {
+				width: 32px;
+				height: 32px;
+				background: rgba(0,0,0,0.35);
+				border-radius: 50%;
+				border: 1px solid rgba(255,255,255,0.06);
+			}
+
+			/* Center buttons */
+			.console-mid {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 10px;
+			}
+			.console-pause-btn {
+				font-size: 8px;
+				font-family: Helvetica, Arial, sans-serif;
+				font-weight: 700;
+				letter-spacing: 1.2px;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.85);
+				background: rgba(255,255,255,0.1);
+				border: 1.5px solid rgba(255,255,255,0.22);
+				border-radius: 20px;
+				padding: 6px 14px;
+				cursor: pointer;
+				touch-action: none;
+				user-select: none;
+				-webkit-tap-highlight-color: transparent;
+				box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+				transition: all 0.08s ease;
+			}
+			.console-pause-btn:active {
+				background: rgba(45,212,191,0.25);
+				border-color: rgba(45,212,191,0.55);
+				box-shadow: 0 0 10px rgba(45,212,191,0.3);
+			}
+			.console-back-link {
+				font-size: 8px;
+				font-family: Helvetica, Arial, sans-serif;
+				font-weight: 700;
+				letter-spacing: 1.2px;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.55);
+				background: rgba(255,255,255,0.06);
+				border: 1.5px solid rgba(255,255,255,0.12);
+				border-radius: 20px;
+				padding: 6px 14px;
+				text-decoration: none;
+				box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+			}
+
+			/* Shoot button */
+			.shoot-btn {
+				width: 72px;
+				height: 72px;
+				border-radius: 50%;
+				border: 1.5px solid rgba(255,255,255,0.28);
+				background: rgba(255,255,255,0.12);
+				color: #fff;
+				font-size: 11px;
+				font-family: Helvetica, Arial, sans-serif;
+				font-weight: 700;
+				letter-spacing: 0.8px;
+				text-transform: uppercase;
+				cursor: pointer;
+				touch-action: none;
+				user-select: none;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				-webkit-tap-highlight-color: transparent;
+				box-shadow: 0 4px 14px rgba(0,0,0,0.35), 0 0 0 4px rgba(45,212,191,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+				transition: all 0.08s ease;
+			}
+			.shoot-btn:active {
+				transform: scale(0.9);
+				background: rgba(45,212,191,0.35);
+				border-color: rgba(45,212,191,0.7);
+				box-shadow: 0 0 22px rgba(45,212,191,0.55), 0 0 0 4px rgba(45,212,191,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="canvas-wrapper">
+		<!-- HUD: desktop only -->
+		<div class="hud">
+			<div class="controls">
+				<span><span class="key spacebar">Space</span> Shoot</span>
+				<span><span class="key">←</span><span class="key">→</span> Move</span>
+				<span><span class="key">↑</span> Jump</span>
+				<span><span class="key">Esc</span> Pause</span>
+			</div>
+			<a class="back-link" href="/">← Portfolio</a>
+		</div>
+
+		<!-- Device frame: tablet on desktop, console on mobile -->
+		<div class="device-frame">
+			<div class="device-camera"></div>
+			<div class="device-screen">
+				<canvas id="canvas"></canvas>
+			</div>
+
+			<!-- Desktop only: home button -->
+			<div class="tablet-home"></div>
+
+			<!-- Mobile only: console controls -->
+			<div class="console-section">
+				<div class="console-speakers">
+					<div class="speaker-dot"></div>
+					<div class="speaker-dot"></div>
+					<div class="speaker-dot"></div>
+					<div class="speaker-dot"></div>
+					<div class="speaker-dot"></div>
+				</div>
+				<div class="console-controls-row">
+					<div class="dpad">
+						<div class="dpad-row">
+							<button class="dpad-btn" data-key="38">▲</button>
+						</div>
+						<div class="dpad-row">
+							<button class="dpad-btn" data-key="37">◀</button>
+							<div class="dpad-center-dot"></div>
+							<button class="dpad-btn" data-key="39">▶</button>
+						</div>
+						<div class="dpad-row">
+							<button class="dpad-btn" data-key="40">▼</button>
+						</div>
+					</div>
+
+					<div class="console-mid">
+						<button class="console-pause-btn" data-key="27">PAUSE</button>
+						<a class="console-back-link" href="/">← BACK</a>
+					</div>
+
+					<button class="shoot-btn" data-key="32">SHOOT</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/spider-man/spiderman-game.js"></script>
+	<script>
+		var game = new SpidermanGame({ canvas: "#canvas" });
+		game.load();
+
+		// Touch / click → keyboard events for console controls
+		function dispatchKey(type, keyCode) {
+			document.dispatchEvent(new KeyboardEvent(type, {
+				keyCode: keyCode, which: keyCode, bubbles: true, cancelable: true
+			}));
+		}
+		document.querySelectorAll('[data-key]').forEach(function(btn) {
+			var kc = parseInt(btn.getAttribute('data-key'));
+			btn.addEventListener('touchstart',  function(e) { e.preventDefault(); dispatchKey('keydown', kc); }, { passive: false });
+			btn.addEventListener('touchend',    function(e) { e.preventDefault(); dispatchKey('keyup',   kc); }, { passive: false });
+			btn.addEventListener('mousedown',   function(e) { e.preventDefault(); dispatchKey('keydown', kc); });
+			btn.addEventListener('mouseup',     function(e) { e.preventDefault(); dispatchKey('keyup',   kc); });
+			btn.addEventListener('mouseleave',  function()  { dispatchKey('keyup', kc); });
+		});
+
+		// Responsive scale fit — measure actual dimensions dynamically
+		function fitToViewport() {
+			var mobile = window.innerWidth <= 640;
+			var wrapper = document.querySelector('.canvas-wrapper');
+			// Reset scale so offsetWidth/Height reflect natural size
+			wrapper.style.transform = 'translate(-50%, -50%)';
+			var nw = wrapper.offsetWidth;
+			var nh = wrapper.offsetHeight;
+			var scaleX = (window.innerWidth  * 0.95) / nw;
+			var scaleY = (window.innerHeight * 0.95) / nh;
+			var scale  = Math.min(scaleX, scaleY, mobile ? 1.2 : 1.35);
+			wrapper.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+		}
+		fitToViewport();
+		window.addEventListener('resize', fitToViewport);
+	</script>
+</body>
+</html>
