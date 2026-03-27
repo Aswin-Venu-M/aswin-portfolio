@@ -420,8 +420,8 @@ export class SpiderMan {
     const roofLeft  = this.game.isRoofAtPoint(this.x - this.velocityX, this.y + img.height * this.scale + 1);
     const roofRight = this.game.isRoofAtPoint(this.x + img.width * this.scale - this.velocityX, this.y + img.height * this.scale + 1);
 
-    if (roofLeft || roofRight) {
-      const roof = (roofLeft || roofRight)!;
+    const roof = roofLeft || roofRight;
+    if (roof) {
       if (roof.y + this.velocityY <= this.y) {
         this.x -= this.velocityX;
         this.velocityX = 0;
@@ -608,9 +608,10 @@ export class SpidermanGame {
       const sound = this.audioResources[soundName];
       if (!sound) continue;
       sound.setAttribute("data-name", soundName);
-      sound.ontimeupdate = function (this: HTMLAudioElement) {
-        if (this.currentTime >= this.duration) {
-          const current = AUDIO_LOOP.indexOf(this.getAttribute("data-name") || "");
+      sound.ontimeupdate = function (this: GlobalEventHandlers) {
+        const audio = this as unknown as HTMLAudioElement;
+        if (audio.currentTime >= audio.duration) {
+          const current = AUDIO_LOOP.indexOf(audio.getAttribute("data-name") || "");
           self.playSound(AUDIO_LOOP[(current + 1) % AUDIO_LOOP.length], false, 0);
         }
       };
