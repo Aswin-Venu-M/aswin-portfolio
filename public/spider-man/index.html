@@ -162,7 +162,6 @@
 				pointer-events: none;
 			}
 
-			/* Center buttons */
 			.console-mid {
 				display: flex;
 				flex-direction: column;
@@ -304,6 +303,10 @@
 			btn.addEventListener('mousedown',   function(e) { e.preventDefault(); dispatchKey('keydown', kc); });
 			btn.addEventListener('mouseup',     function(e) { e.preventDefault(); dispatchKey('keyup',   kc); });
 			btn.addEventListener('mouseleave',  function()  { dispatchKey('keyup', kc); });
+		});
+
+		document.querySelector('.console-back-btn').addEventListener('click', function() {
+			window.location.href = '/';
 		});
 
 		// Joystick input
