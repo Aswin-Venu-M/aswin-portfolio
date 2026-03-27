@@ -311,17 +311,19 @@
 
 		// Joystick input
 		(function () {
-			var base   = document.getElementById('joystick-base');
-			var knob   = document.getElementById('joystick-knob');
+			var base      = document.getElementById('joystick-base');
+			var knob      = document.getElementById('joystick-knob');
 			var MAX_RADIUS = 30;
 			var DEADZONE   = 8;
 			var active     = false;
+			var touchId    = null; // identifier of the joystick touch
 			var startX     = 0;
 			var dir        = null; // currently held keycode (37 or 39) or null
 
 			function release() {
 				if (!active) return;
 				active = false;
+				touchId = null;
 				knob.style.transform = 'translate(-50%, -50%)';
 				if (dir !== null) { dispatchKey('keyup', dir); dir = null; }
 			}
@@ -337,12 +339,14 @@
 				}
 			}
 
-			// Start
+			// Start — record the specific touch that hit the joystick
 			base.addEventListener('touchstart', function (e) {
-				if (e.touches.length > 1) return;
+				if (active) return; // already tracking a joystick touch
 				e.preventDefault();
-				startX = e.touches[0].clientX;
-				active = true;
+				var t = e.changedTouches[0];
+				touchId = t.identifier;
+				startX  = t.clientX;
+				active  = true;
 			}, { passive: false });
 
 			base.addEventListener('mousedown', function (e) {
@@ -351,12 +355,16 @@
 				active = true;
 			});
 
-			// Move
+			// Move — find the joystick touch by identifier, ignore other fingers
 			document.addEventListener('touchmove', function (e) {
 				if (!active) return;
 				e.preventDefault();
-				if (e.touches.length !== 1) { release(); return; }
-				onMove(e.touches[0].clientX);
+				var t = null;
+				for (var i = 0; i < e.touches.length; i++) {
+					if (e.touches[i].identifier === touchId) { t = e.touches[i]; break; }
+				}
+				if (!t) return; // joystick touch not in this event
+				onMove(t.clientX);
 			}, { passive: false });
 
 			document.addEventListener('mousemove', function (e) {
@@ -364,8 +372,19 @@
 				onMove(e.clientX);
 			});
 
-			// Release
-			document.addEventListener('touchend',  release);
+			// Release — only when the joystick touch ends, not any other finger
+			document.addEventListener('touchend', function (e) {
+				if (!active) return;
+				for (var i = 0; i < e.changedTouches.length; i++) {
+					if (e.changedTouches[i].identifier === touchId) { release(); return; }
+				}
+			});
+			document.addEventListener('touchcancel', function (e) {
+				if (!active) return;
+				for (var i = 0; i < e.changedTouches.length; i++) {
+					if (e.changedTouches[i].identifier === touchId) { release(); return; }
+				}
+			});
 			document.addEventListener('mouseup',   release);
 			document.documentElement.addEventListener('mouseleave', release);
 		}());
