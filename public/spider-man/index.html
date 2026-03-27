@@ -79,7 +79,7 @@
 			box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
 		}
 		.device-screen {
-			border-radius: 8px;
+			border-radius: 10px;
 			overflow: hidden;
 			box-shadow: inset 0 2px 8px rgba(0,0,0,0.6), 0 0 0 1px #0f766e;
 			display: block;
@@ -136,55 +136,30 @@
 				padding: 4px 4px;
 			}
 
-			/* D-pad — disc platform */
-			.dpad {
+			/* Virtual joystick */
+			.joystick-base {
 				width: 118px;
 				height: 118px;
 				background: rgba(0,0,0,0.28);
 				border-radius: 50%;
 				box-shadow: inset 0 3px 10px rgba(0,0,0,0.5), 0 2px 0 rgba(255,255,255,0.06);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				gap: 3px;
-			}
-			.dpad-row {
-				display: flex;
-				align-items: center;
-				gap: 3px;
-			}
-			.dpad-btn {
-				width: 32px;
-				height: 32px;
-				background: rgba(255,255,255,0.08);
-				border: 1.5px solid rgba(255,255,255,0.18);
-				border-radius: 8px;
-				color: rgba(255,255,255,0.9);
-				font-size: 11px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
+				position: relative;
 				touch-action: none;
 				user-select: none;
 				-webkit-tap-highlight-color: transparent;
-				box-shadow: 0 2px 6px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
-				transition: all 0.08s ease;
 			}
-			.dpad-btn:active {
-				background: rgba(45,212,191,0.35);
-				border-color: rgba(45,212,191,0.65);
-				color: #fff;
-				transform: scale(0.88);
-				box-shadow: 0 0 12px rgba(45,212,191,0.45);
-			}
-			.dpad-center-dot {
-				width: 32px;
-				height: 32px;
-				background: rgba(0,0,0,0.35);
+			.joystick-knob {
+				width: 44px;
+				height: 44px;
 				border-radius: 50%;
-				border: 1px solid rgba(255,255,255,0.06);
+				background: rgba(45,212,191,0.35);
+				border: 1.5px solid rgba(45,212,191,0.6);
+				box-shadow: 0 0 12px rgba(45,212,191,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				pointer-events: none;
 			}
 
 			/* Center buttons */
@@ -194,46 +169,42 @@
 				align-items: center;
 				gap: 10px;
 			}
-			.console-pause-btn {
-				font-size: 8px;
+			/* Center buttons */
+			.center-btn {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				padding: 8px 18px;
+				border-radius: 24px;
+				background: rgba(255,255,255,0.12);
+				border: 1.5px solid rgba(255,255,255,0.28);
+				color: rgba(255,255,255,0.9);
 				font-family: Helvetica, Arial, sans-serif;
+				font-size: 10px;
 				font-weight: 700;
-				letter-spacing: 1.2px;
+				letter-spacing: 1px;
 				text-transform: uppercase;
-				color: rgba(255,255,255,0.85);
-				background: rgba(255,255,255,0.1);
-				border: 1.5px solid rgba(255,255,255,0.22);
-				border-radius: 20px;
-				padding: 6px 14px;
 				cursor: pointer;
-				touch-action: none;
+				touch-action: manipulation;
 				user-select: none;
 				-webkit-tap-highlight-color: transparent;
 				box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
 				transition: all 0.08s ease;
 			}
-			.console-pause-btn:active {
+			.center-btn:active {
 				background: rgba(45,212,191,0.25);
 				border-color: rgba(45,212,191,0.55);
 				box-shadow: 0 0 10px rgba(45,212,191,0.3);
 			}
-			.console-back-link {
-				font-size: 8px;
-				font-family: Helvetica, Arial, sans-serif;
-				font-weight: 700;
-				letter-spacing: 1.2px;
-				text-transform: uppercase;
-				color: rgba(255,255,255,0.55);
-				background: rgba(255,255,255,0.06);
-				border: 1.5px solid rgba(255,255,255,0.12);
-				border-radius: 20px;
-				padding: 6px 14px;
-				text-decoration: none;
-				box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
-			}
 
-			/* Shoot button */
-			.shoot-btn {
+			/* Action button cluster */
+			.action-btns {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 10px;
+			}
+			.action-btn {
 				width: 72px;
 				height: 72px;
 				border-radius: 50%;
@@ -255,7 +226,7 @@
 				box-shadow: 0 4px 14px rgba(0,0,0,0.35), 0 0 0 4px rgba(45,212,191,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
 				transition: all 0.08s ease;
 			}
-			.shoot-btn:active {
+			.action-btn:active {
 				transform: scale(0.9);
 				background: rgba(45,212,191,0.35);
 				border-color: rgba(45,212,191,0.7);
@@ -297,18 +268,8 @@
 					<div class="speaker-dot"></div>
 				</div>
 				<div class="console-controls-row">
-					<div class="dpad">
-						<div class="dpad-row">
-							<button class="dpad-btn" data-key="38">▲</button>
-						</div>
-						<div class="dpad-row">
-							<button class="dpad-btn" data-key="37">◀</button>
-							<div class="dpad-center-dot"></div>
-							<button class="dpad-btn" data-key="39">▶</button>
-						</div>
-						<div class="dpad-row">
-							<button class="dpad-btn" data-key="40">▼</button>
-						</div>
+					<div class="joystick-base" id="joystick-base">
+						<div class="joystick-knob" id="joystick-knob"></div>
 					</div>
 
 					<div class="console-mid">
@@ -316,7 +277,10 @@
 						<a class="console-back-link" href="/">← BACK</a>
 					</div>
 
-					<button class="shoot-btn" data-key="32">SHOOT</button>
+					<div class="action-btns">
+						<button class="action-btn jump-btn" data-key="38">JUMP</button>
+						<button class="action-btn shoot-btn" data-key="32">SHOOT</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -341,6 +305,67 @@
 			btn.addEventListener('mouseup',     function(e) { e.preventDefault(); dispatchKey('keyup',   kc); });
 			btn.addEventListener('mouseleave',  function()  { dispatchKey('keyup', kc); });
 		});
+
+		// Joystick input
+		(function () {
+			var base   = document.getElementById('joystick-base');
+			var knob   = document.getElementById('joystick-knob');
+			var MAX_RADIUS = 30;
+			var DEADZONE   = 8;
+			var active     = false;
+			var startX     = 0;
+			var dir        = null; // currently held keycode (37 or 39) or null
+
+			function release() {
+				if (!active) return;
+				active = false;
+				knob.style.transform = 'translate(-50%, -50%)';
+				if (dir !== null) { dispatchKey('keyup', dir); dir = null; }
+			}
+
+			function onMove(clientX) {
+				var dx = Math.max(-MAX_RADIUS, Math.min(MAX_RADIUS, clientX - startX));
+				knob.style.transform = 'translate(calc(-50% + ' + dx + 'px), -50%)';
+				var newDir = dx > DEADZONE ? 39 : dx < -DEADZONE ? 37 : null;
+				if (newDir !== dir) {
+					if (dir !== null) dispatchKey('keyup', dir);
+					if (newDir !== null) dispatchKey('keydown', newDir);
+					dir = newDir;
+				}
+			}
+
+			// Start
+			base.addEventListener('touchstart', function (e) {
+				if (e.touches.length > 1) return;
+				e.preventDefault();
+				startX = e.touches[0].clientX;
+				active = true;
+			}, { passive: false });
+
+			base.addEventListener('mousedown', function (e) {
+				e.preventDefault();
+				startX = e.clientX;
+				active = true;
+			});
+
+			// Move
+			document.addEventListener('touchmove', function (e) {
+				if (!active) return;
+				e.preventDefault();
+				if (e.touches.length !== 1) { release(); return; }
+				onMove(e.touches[0].clientX);
+			}, { passive: false });
+
+			document.addEventListener('mousemove', function (e) {
+				if (!active) return;
+				onMove(e.clientX);
+			});
+
+			// Release
+			document.addEventListener('touchend',  release);
+			document.addEventListener('mouseup',   release);
+			document.documentElement.addEventListener('mouseleave', release);
+		}());
 
 		// Responsive scale fit — measure actual dimensions dynamically
 		function fitToViewport() {
