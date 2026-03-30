@@ -90,6 +90,9 @@ export default function Projects() {
     });
   }
 
+  // Keep navigateRef current so the setInterval closure always calls the latest navigate
+  navigateRef.current = navigate;
+
   // Scroll-in GSAP + ResizeObserver — useLayoutEffect runs client-side only (SSR safe)
   useLayoutEffect(() => {
     // Measure initial card width
