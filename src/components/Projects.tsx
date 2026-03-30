@@ -29,7 +29,7 @@ export default function Projects() {
   const ariaLiveRef = useRef<HTMLSpanElement>(null);
   const isPaused = useRef(false);
   const isHovered = useRef(false);
-  const resumeTimerRef = useRef<number | undefined>(undefined);
+  const resumeTimerRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const navigateRef = useRef<(index: number) => void>(() => {});
 
   // Sync activeIndexRef synchronously before paint — ResizeObserver reads this ref
@@ -92,6 +92,21 @@ export default function Projects() {
 
   // Keep navigateRef current so the setInterval closure always calls the latest navigate
   navigateRef.current = navigate;
+
+  function pauseAutoplay() {
+    isPaused.current = true;
+    clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = undefined;
+  }
+
+  function scheduleResume() {
+    clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      if (!isHovered.current) {
+        isPaused.current = false;
+      }
+    }, 2000);
+  }
 
   // Scroll-in GSAP + ResizeObserver — useLayoutEffect runs client-side only (SSR safe)
   useLayoutEffect(() => {
