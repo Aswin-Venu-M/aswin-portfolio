@@ -108,6 +108,12 @@ export default function Projects() {
     }, 2000);
   }
 
+  function handleManualNavigate(index: number) {
+    pauseAutoplay();
+    navigate(index);
+    scheduleResume();
+  }
+
   // Scroll-in GSAP + ResizeObserver — useLayoutEffect runs client-side only (SSR safe)
   useLayoutEffect(() => {
     // Measure initial card width
