@@ -27,6 +27,10 @@ export default function Projects() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const ariaLiveRef = useRef<HTMLSpanElement>(null);
+  const isPaused = useRef(false);
+  const isHovered = useRef(false);
+  const resumeTimerRef = useRef<number | undefined>(undefined);
+  const navigateRef = useRef<(index: number) => void>(() => {});
 
   // Sync activeIndexRef synchronously before paint — ResizeObserver reads this ref
   useLayoutEffect(() => {
