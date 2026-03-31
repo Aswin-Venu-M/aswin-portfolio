@@ -107,8 +107,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
         {/* CTA */}
         <a
-          href="#"
-          onClick={(e) => e.preventDefault()}
+          href={project.url ?? "#"}
+          {...(project.url
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : { onClick: (e) => e.preventDefault() })}
           className="flex items-center gap-2 mt-auto group w-fit"
         >
           <span className="font-mono text-xs font-bold uppercase tracking-wider">

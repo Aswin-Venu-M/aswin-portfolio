@@ -7,6 +7,7 @@ export interface Project {
   points: string[];
   featured?: boolean;
   accentColor?: string;
+  url?: string;
 }
 
 export const projects: Project[] = [
@@ -60,6 +61,7 @@ export const projects: Project[] = [
       "Advanced form handling with real-time validation feedback",
     ],
     accentColor: "#FFD93D",
+    url: "https://limozia.com/",
   },
   {
     id: "checkmycar",
@@ -72,6 +74,7 @@ export const projects: Project[] = [
       "Role-based access control + protected admin routes",
     ],
     accentColor: "#FF6B6B",
+    url: "https://checkmycar.ae/",
   },
   {
     id: "sentiment",
