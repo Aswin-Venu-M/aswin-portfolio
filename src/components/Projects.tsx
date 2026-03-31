@@ -220,6 +220,14 @@ export default function Projects() {
           className="overflow-hidden w-full"
           tabIndex={0}
           onKeyDown={handleKeyDown}
+          onMouseEnter={() => {
+            isHovered.current = true;
+            pauseAutoplay();
+          }}
+          onMouseLeave={() => {
+            isHovered.current = false;
+            scheduleResume();
+          }}
           aria-label="Projects carousel"
         >
           {/* Track — position:relative so offsetLeft on children is relative to track */}
