@@ -30,7 +30,7 @@ export default function CustomCursor() {
       const label = el.getAttribute("data-cursor-label");
       gsap.to(cursor, {
         scale: 2.5,
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "#FFFFFF",
         duration: 0.3,
         ease: "back.out(1.4)",
       });
@@ -43,7 +43,7 @@ export default function CustomCursor() {
     const onLeaveClickable = () => {
       gsap.to(cursor, {
         scale: 1,
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "transparent",
         duration: 0.3,
         ease: "back.out(1.4)",
       });
@@ -63,7 +63,7 @@ export default function CustomCursor() {
     const onLeaveCard = () => {
       gsap.to(cursor, {
         scale: 1,
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "transparent",
         duration: 0.3,
       });
     };
@@ -96,7 +96,7 @@ export default function CustomCursor() {
       {/* Outer ring */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-black pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:flex items-center justify-center"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-white pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:flex items-center justify-center"
         style={{ backgroundColor: "transparent" }}
       >
         <span
@@ -109,7 +109,7 @@ export default function CustomCursor() {
       {/* Inner dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-black pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block"
       />
     </>
   );
