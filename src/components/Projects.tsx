@@ -166,6 +166,22 @@ export default function Projects() {
     };
   }, []);
 
+  // Autoplay: advance every 4s, skip if paused or mid-transition
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const id = setInterval(() => {
+      if (isPaused.current || isAnimating.current) return;
+      const nextIndex = (activeIndexRef.current + 1) % projects.length;
+      navigateRef.current(nextIndex);
+    }, 4000);
+
+    return () => {
+      clearInterval(id);
+      clearTimeout(resumeTimerRef.current);
+    };
+  }, []);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!containerRef.current?.contains(document.activeElement)) return;
     if (e.key === "ArrowRight") handleManualNavigate(activeIndex + 1);
