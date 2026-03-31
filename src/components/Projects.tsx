@@ -168,8 +168,8 @@ export default function Projects() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!containerRef.current?.contains(document.activeElement)) return;
-    if (e.key === "ArrowRight") navigate(activeIndex + 1);
-    if (e.key === "ArrowLeft") navigate(activeIndex - 1);
+    if (e.key === "ArrowRight") handleManualNavigate(activeIndex + 1);
+    if (e.key === "ArrowLeft") handleManualNavigate(activeIndex - 1);
   };
 
   return (
@@ -231,7 +231,7 @@ export default function Projects() {
           {/* Prev */}
           <button
             aria-label="Previous project"
-            onClick={() => navigate(activeIndex - 1)}
+            onClick={() => handleManualNavigate(activeIndex - 1)}
             disabled={activeIndex === 0}
             className={`brutal-border w-10 h-10 flex items-center justify-center font-mono font-black text-sm bg-surface transition-opacity ${
               activeIndex === 0
@@ -245,7 +245,7 @@ export default function Projects() {
           {/* Next */}
           <button
             aria-label="Next project"
-            onClick={() => navigate(activeIndex + 1)}
+            onClick={() => handleManualNavigate(activeIndex + 1)}
             disabled={activeIndex === projects.length - 1}
             className={`brutal-border w-10 h-10 flex items-center justify-center font-mono font-black text-sm bg-black text-accent transition-opacity ${
               activeIndex === projects.length - 1 ? "opacity-40 pointer-events-none" : ""
@@ -265,7 +265,7 @@ export default function Projects() {
             {projects.map((project, i) => (
               <button
                 key={project.id}
-                onClick={() => navigate(i)}
+                onClick={() => handleManualNavigate(i)}
                 aria-label={`Go to project ${i + 1}: ${project.title}`}
                 aria-current={i === activeIndex ? "true" : undefined}
                 className={`w-3 h-3 brutal-border transition-opacity ${
